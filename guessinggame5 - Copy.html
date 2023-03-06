@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Number Guessing Game</title>
+  <script>
+    let randomNumber = Math.floor(Math.random() * 10) + 1;
+    let userGuess = 0;
+    let guessCount = 0;
+    let timer = 30;
+
+    function checkGuess() {
+      userGuess = document.getElementById("user-guess").value;
+      guessCount++;
+      if (userGuess == randomNumber) {
+        document.getElementById("result").innerHTML = "You won! It took you " + guessCount + " tries.";
+        clearInterval(countdown);
+      } else if (userGuess < randomNumber) {
+        document.getElementById("result").innerHTML = "Your guess is too low.";
+      } else {
+        document.getElementById("result").innerHTML = "Your guess is too high.";
+      }
+    }
+
+    function resetGame() {
+      location.reload();
+    }
+
+    function displayTimer() {
+      document.getElementById("timer").innerHTML = "Time remaining: " + timer + " seconds";
+      timer--;
+      if (timer < 0) {
+        document.getElementById("result").innerHTML = "Time is up! The correct answer was " + randomNumber + ".";
+        clearInterval(countdown);
+      }
+    }
+
+    let countdown = setInterval(displayTimer, 1000);
+    document.getElementById("user-guess").addEventListener("keyup", function(event) {
+      if (event.keyCode === 13) {
+        checkGuess();
+      }
+    });
+  </script>
+  <style>
+    #timer {
+      position: fixed;
+      right: 10px;
+      top: 10px;
+    }
+    input[type="number"] {
+      width: 200px;
+      height: 40px;
+      font-size: 20px;
+      text-align: center;
+      margin: auto;
+    }
+    button {
+      width: 200px;
+      height: 40px;
+      font-size: 20px;
+      text-align: center;
+      margin: auto;
+    }
+    #result {
+      font-size: 30px;
+      text-align: center;
+    }
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  </style>
+</head>
+<body>
+  <h1>Number Guessing Game</h1>
+  <p>Guess a number between 1 and 10:</p>
+  <input type="number" id="user-guess">
+  <br><br>
+  <button onclick="checkGuess()">Guess</button>
+  <button onclick="resetGame()">Reset</button>
+  <p id="timer"></p>
+  <p id="result"></p>
+</body>
+</html>
